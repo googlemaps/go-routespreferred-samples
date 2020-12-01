@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// [START maps_routespreferred_samples_default]
 package main
 
 import (
@@ -128,3 +129,4 @@ func main() {
 	callComputeRoutes(client, &ctx)
 	callComputeRouteMatrix(client, &ctx)
 }
+// [END maps_routespreferred_samples_default]
