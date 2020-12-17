@@ -25,7 +25,6 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	v1 "google.golang.org/genproto/googleapis/maps/routes/v1"
-	v1alpha "google.golang.org/genproto/googleapis/maps/routes/v1alpha"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -50,7 +49,7 @@ func createWaypoint(lat float64, lng float64) *v1.Waypoint {
 	}}
 }
 
-func callComputeRoutes(client v1alpha.RoutesAlphaClient, ctx *context.Context) {
+func callComputeRoutes(client v1.RoutesPreferredClient, ctx *context.Context) {
 	request := v1.ComputeRoutesRequest{
 		Origin:                   createWaypoint(37.420761, -122.081356),
 		Destination:              createWaypoint(37.420999, -122.086894),
@@ -76,7 +75,7 @@ func callComputeRoutes(client v1alpha.RoutesAlphaClient, ctx *context.Context) {
 	log.Printf("Result: %s", marshaler.Text(result))
 }
 
-func callComputeRouteMatrix(client v1alpha.RoutesAlphaClient, ctx *context.Context) {
+func callComputeRouteMatrix(client v1.RoutesPreferredClient, ctx *context.Context) {
 	request := v1.ComputeRouteMatrixRequest{
 		Origins: []*v1.RouteMatrixOrigin{
 			{Waypoint: createWaypoint(37.420761, -122.081356), RouteModifiers: &v1.RouteModifiers{
@@ -120,7 +119,7 @@ func main() {
 		log.Fatalf("Failed to connect: %v", err)
 	}
 	defer conn.Close()
-	client := v1alpha.NewRoutesAlphaClient(conn)
+	client := v1.NewRoutesPreferredClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Api-Key", os.Getenv("GOOGLE_MAPS_API_KEY"))
 	ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Fieldmask", fieldMask)
