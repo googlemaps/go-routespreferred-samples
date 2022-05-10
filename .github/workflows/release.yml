@@ -32,4 +32,4 @@ jobs:
             "@semantic-release/github
             "@semantic-release/git
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+          GH_TOKEN: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}      
